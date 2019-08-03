@@ -59,6 +59,7 @@ def load():
     
 def save():
     data = {"known_hosts_dict": known_hosts_dict, "new_hosts_dict": new_hosts_dict}
+    print("-----------SAVE DATA-------------")
     print(data)
     with open(file_db, 'w+') as outfile:
         json.dump(data, outfile)
