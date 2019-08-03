@@ -43,6 +43,7 @@ def scan():
     return mac_address_list
 
 def check_who_is_home(mac_address_list):
+    global known_hosts_dict
     at_home = []
     for m in mac_address_list:
         x = known_hosts_dict.get(m)
@@ -53,13 +54,15 @@ def check_who_is_home(mac_address_list):
             at_home = at_home + w
 
     if len(at_home)==0:
-        print("Sembra che a casa non ci sia nessuno.")
+        print("Sembra che a casa non ci sia nessun host conosciuto.")
     elif len(at_home)==1:
         print( "A casa c'è {}.".format(at_home[0]) )
     else:
         print("A casa ci sono {}".format(at_home))
 
 def load():
+    global known_hosts_dict
+    global new_hosts_dict
     if os.path.exists(file_db):
         with open(file_db) as json_file:
             data = json.load(json_file)
