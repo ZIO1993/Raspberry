@@ -64,7 +64,9 @@ def save():
 if __name__ == "__main__":
     load()
     scan_result = scan()
+    print("-----------Scan result-----------")
     print(scan_result)
     check_who_is_home(scan_result)
+    print("-----------Nuovi hosts-----------")
     print(new_hosts_dict)
     save()
