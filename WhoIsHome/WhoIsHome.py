@@ -4,17 +4,14 @@ import json, os
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--debug", "--logs",dest='logs', help="Run script with degub", action="store_true")
+parser.add_argument("--debug", "--logs", "--verbose",dest='logs', help="Run script with logs", action="store_true")
 #parser.add_argument("--name", "--add", dest='name', help="name of new tracking to be added")
 #parser.add_argument("--delete", help="name of the search you want to delete")
 #parser.add_argument('--refresh', dest='refresh', action='store_true', help="refresh search results")
 #parser.set_defaults(refresh=False)
 #parser.add_argument('--list', dest='list', action='store_true', help="print a list of current trackings")
 #parser.set_defaults(list=False)
-
 args = parser.parse_args()
-print(args)
-logs=args.logs
 
 file_db="db.json"
 
@@ -68,22 +65,26 @@ def load():
             data = json.load(json_file)
             known_hosts_dict    = data["known_hosts_dict"]
             new_hosts_dict      = data["new_hosts_dict"]
-            print("-----------LOAD DATA-------------")
-            print(data)
+            if args.logs:
+                print("-----------LOAD DATA-------------")
+                print(data)
     
 def save():
     data = {"known_hosts_dict": known_hosts_dict, "new_hosts_dict": new_hosts_dict}
-    print("-----------SAVE DATA-------------")
-    print(data)
+    if args.logs:
+        print("-----------SAVE DATA-------------")
+        print(data)
     with open(file_db, 'w+') as outfile:
         json.dump(data, outfile)
 
 if __name__ == "__main__":
     load()
     scan_result = scan()
-    print("-----------Scan result-----------")
-    print(scan_result)
+    if args.logs:
+        print("-----------Scan result-----------")
+        print(scan_result)
     check_who_is_home(scan_result)
-    print("-----------Nuovi hosts-----------")
-    print(new_hosts_dict)
+    if args.logs:
+        print("-----------Nuovi hosts-----------")
+        print(new_hosts_dict)
     save()
