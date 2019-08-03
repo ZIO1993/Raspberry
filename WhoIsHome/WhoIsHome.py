@@ -58,7 +58,6 @@ def check_who_is_home(mac_address_list):
     else:
         print("A casa ci sono {}".format(at_home))
     for host in new_hosts_dict:
-        print(new_hosts_dict[host])
         if new_hosts_dict[host]=='0':
             msg=[]
             msg.append("Attenzione nuovo host rilevato!\nMAC Address: {}".format(host))
