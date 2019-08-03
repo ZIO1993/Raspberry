@@ -6,7 +6,7 @@ import telegram_send
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--debug", "--logs", "--verbose",dest='logs', help="Run script with logs", action="store_true")
-parser.add_argument("--second", "--delay", dest='second', type=int, help="Time dalay to refresh")
+parser.add_argument("--second", "--delay", dest='seconds', type=int, help="Time dalay to refresh")
 #parser.add_argument("--name", "--add", dest='name', help="name of new tracking to be added")
 #parser.add_argument("--delete", help="name of the search you want to delete")
 #parser.add_argument('--refresh', dest='refresh', action='store_true', help="refresh search results")
@@ -95,7 +95,7 @@ if __name__ == "__main__":
             print("-----------Nuovi hosts-----------")
             print(new_hosts_dict)
         save()
-        time=10
+        seconds=10
         if(args.second):
-            time=int(args.second)
-        time.sleep(time)
+            seconds=int(args.seconds)
+        time.sleep(seconds)
