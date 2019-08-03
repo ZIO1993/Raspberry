@@ -52,13 +52,15 @@ def check_who_is_home(mac_address_list):
         if x and not x in at_home:
             w=[x]
             at_home = at_home + w
-
+    
     if len(at_home)==0:
         print("Sembra che a casa non ci sia nessun host conosciuto.")
     elif len(at_home)==1:
         print( "A casa c'è {}.".format(at_home[0]) )
     else:
         print("A casa ci sono {}".format(at_home))
+    for host in known_hosts_dict:
+        print("Nuovo host: {}".format(host))
 
 def load():
     global known_hosts_dict
@@ -78,7 +80,7 @@ def save():
         print("-----------SAVE DATA-------------")
         print(data)
     with open(file_db, 'w+') as outfile:
-        json.dump(data, outfile)
+        json.dump(data, outfile, indent=4)
 
 if __name__ == "__main__":
     load()
