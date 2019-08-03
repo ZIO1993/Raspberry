@@ -44,6 +44,7 @@ def scan():
 
 def check_who_is_home(mac_address_list):
     global known_hosts_dict
+    global new_hosts_dict
     at_home = []
     for m in mac_address_list:
         x = known_hosts_dict.get(m)
@@ -59,7 +60,7 @@ def check_who_is_home(mac_address_list):
         print( "A casa c'è {}.".format(at_home[0]) )
     else:
         print("A casa ci sono {}".format(at_home))
-    for host in known_hosts_dict:
+    for host in new_hosts_dict:
         print("Nuovo host: {}".format(host))
 
 def load():
