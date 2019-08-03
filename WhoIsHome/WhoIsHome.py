@@ -98,7 +98,6 @@ if __name__ == "__main__":
             print(new_hosts_dict)
         save()
         seconds=10
-        print(args)
         if(args.seconds!=None):
             seconds=int(args.seconds)
         time.sleep(seconds)
