@@ -56,7 +56,7 @@ def check_who_is_home(mac_address_list):
     elif len(at_home)==1:
         print( "A casa c'è {}.".format(at_home[0]) )
     else:
-        print("A casa ci sono {}".format(at_home))
+        print("A casa ci sono {}".format(at_home.sort()))
     for host in new_hosts_dict:
         if new_hosts_dict[host]=='0':
             msg=[]
