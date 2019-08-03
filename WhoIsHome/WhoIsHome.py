@@ -45,7 +45,7 @@ def check_who_is_home(mac_address_list):
     for m in mac_address_list:
         x = known_hosts_dict.get(m)
         if(x==None):
-            if(new_hosts_dict[m]==None):
+            if(new_hosts_dict.get(m)==None):
                 new_hosts_dict[m] = "0"
         if x and not x in at_home:
             w=[x]
