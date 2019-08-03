@@ -4,7 +4,7 @@ import json, os
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--debug", "--logs",dest='logs', help="Run script with degub")
+parser.add_argument("--debug", "--logs",dest='logs', help="Run script with degub", action="store_true")
 #parser.add_argument("--name", "--add", dest='name', help="name of new tracking to be added")
 #parser.add_argument("--delete", help="name of the search you want to delete")
 #parser.add_argument('--refresh', dest='refresh', action='store_true', help="refresh search results")
