@@ -97,6 +97,6 @@ if __name__ == "__main__":
         save()
         seconds=10
         print(args)
-        if(args.second!=None):
+        if(args.seconds!=None):
             seconds=int(args.seconds)
         time.sleep(seconds)
