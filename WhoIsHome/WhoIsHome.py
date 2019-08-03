@@ -2,6 +2,7 @@
 import scapy.all as scapy
 import json, os
 import argparse
+import telegram_send
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--debug", "--logs", "--verbose",dest='logs', help="Run script with logs", action="store_true")
@@ -14,7 +15,7 @@ parser.add_argument("--debug", "--logs", "--verbose",dest='logs', help="Run scri
 args = parser.parse_args()
 
 file_db="db.json"
-
+telegram_conf="telegram-send.conf"
 GATEWAY = "192.168.1.254/24"
 
 known_hosts_dict = {}
@@ -61,7 +62,10 @@ def check_who_is_home(mac_address_list):
     else:
         print("A casa ci sono {}".format(at_home))
     for host in new_hosts_dict:
-        print("Nuovo host: {}".format(host))
+        msg="Attenzione nuovo host rilevato!\nMAC Address: {}".format(host)
+        if args.logs:
+            print("Nuovo host: {}".format(host))
+        telegram_send.send(messages=msg, conf=telegram_conf)
 
 def load():
     global known_hosts_dict
