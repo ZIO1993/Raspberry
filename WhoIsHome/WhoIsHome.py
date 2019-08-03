@@ -62,7 +62,8 @@ def check_who_is_home(mac_address_list):
     else:
         print("A casa ci sono {}".format(at_home))
     for host in new_hosts_dict:
-        msg="Attenzione nuovo host rilevato!\nMAC Address: {}".format(host)
+        msg=[]
+        msg.append("Attenzione nuovo host rilevato!\nMAC Address: {}".format(host))
         if args.logs:
             print("Nuovo host: {}".format(host))
         telegram_send.send(messages=msg, conf=telegram_conf)
