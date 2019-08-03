@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 import scapy.all as scapy
+import json, os
+
+file_db="db.json"
 
 GATEWAY = "192.168.1.254/24"
-known_hosts_dict = {
-    "b8:27:eb:f2:d4:94" : "Enzo (Meizu-m3-note)",
-    "b0:c0:90:23:c3:38" : "Enzo (PC)",
-    "48:3b:38:a6:07:be" : "ALDO (ZiPhone)",
-    "e8:50:8b:b5:b2:e2" : "Enzo (Galaxy s6)"
-}
+
+known_hosts_dict = {}
 new_hosts_dict = {}
 
 def print_result(results_list):
@@ -23,19 +22,14 @@ def scan():
     arp_request           = scapy.ARP(pdst=ip)
     broadcast             = scapy.Ether(dst="ff:ff:ff:ff:ff:ff")
     arp_request_broadcast = broadcast/arp_request
-    answered_list         = scapy.srp(arp_request_broadcast, timeout=1,
-                              verbose=False)[0]
-    print(answered_list)
+    answered_list         = scapy.srp(arp_request_broadcast, timeout=1,verbose=False)[0]
     clients_list = []
     mac_address_list = []
     for element in answered_list:
-        print(element)
         client_dict = {"ip": element[1].psrc, "mac": element[1].hwsrc}
         clients_list.append(client_dict)
         mac_address_list.append(element[1].hwsrc)
-    # print_result(clients_list)
     return mac_address_list
-
 
 def check_who_is_home(mac_address_list):
     at_home = []
@@ -47,8 +41,6 @@ def check_who_is_home(mac_address_list):
             w=[x]
             at_home = at_home + w
 
-    #p = at_home.split(',')
-    #print(p)
     if len(at_home)==0:
         print("Sembra che a casa non ci sia nessuno.")
     elif len(at_home)==1:
@@ -56,9 +48,23 @@ def check_who_is_home(mac_address_list):
     else:
         print("A casa ci sono {}".format(at_home))
 
+def load():
+    if os.path.exists(file_db):
+        with open(file_db) as json_file:
+            data = json.load(json_file)
+            known_hosts_dict    = data["known_hosts_dict"]
+            new_hosts_dict      = data["new_hosts_dict"]
+    
+def save():
+    data = {"known_hosts_dict": known_hosts_dict, "new_hosts_dict": new_hosts_dict}
+    print(data)
+    with open(file_db, 'r') as outfile:
+        json.dump(data, outfile)
 
 if __name__ == "__main__":
+    load()
     scan_result = scan()
     print(scan_result)
     check_who_is_home(scan_result)
     print(new_hosts_dict)
+    save()
