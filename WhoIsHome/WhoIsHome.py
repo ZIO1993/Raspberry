@@ -1,6 +1,20 @@
 # -*- coding: utf-8 -*-
 import scapy.all as scapy
 import json, os
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--debug", "--logs",dest='logs', help="Run script with degub")
+#parser.add_argument("--name", "--add", dest='name', help="name of new tracking to be added")
+#parser.add_argument("--delete", help="name of the search you want to delete")
+#parser.add_argument('--refresh', dest='refresh', action='store_true', help="refresh search results")
+#parser.set_defaults(refresh=False)
+#parser.add_argument('--list', dest='list', action='store_true', help="print a list of current trackings")
+#parser.set_defaults(list=False)
+
+args = parser.parse_args()
+print(args)
+logs=args.logs
 
 file_db="db.json"
 
