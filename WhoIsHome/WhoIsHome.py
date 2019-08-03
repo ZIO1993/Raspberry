@@ -18,6 +18,7 @@ args = parser.parse_args()
 file_db="db.json"
 telegram_conf="telegram-send.conf"
 GATEWAY = "192.168.1.254/24"
+dim_db = 0
 
 known_hosts_dict = {}
 new_hosts_dict = {}
@@ -69,6 +70,7 @@ def check_who_is_home(mac_address_list):
 def load():
     global known_hosts_dict
     global new_hosts_dict
+    global dim_db
     if os.path.exists(file_db):
         with open(file_db) as json_file:
             data = json.load(json_file)
@@ -77,6 +79,7 @@ def load():
             if args.logs:
                 print("-----------LOAD DATA-------------")
                 print(data)
+    dim_db=len(known_hosts_dict)
     
 def save():
     data = {"known_hosts_dict": known_hosts_dict, "new_hosts_dict": new_hosts_dict}
@@ -87,18 +90,23 @@ def save():
         json.dump(data, outfile, indent=4)
 
 if __name__ == "__main__":
-    while True:
-        load()
-        scan_result = scan()
-        if args.logs:
-            print("-----------Scan result-----------")
-            print(scan_result)
-        check_who_is_home(scan_result)
-        if args.logs:
-            print("-----------Nuovi hosts-----------")
-            print(new_hosts_dict)
+    try:
+        while True:
+            load()
+            scan_result = scan()
+            if args.logs:
+                print("-----------Scan result-----------")
+                print(scan_result)
+            check_who_is_home(scan_result)
+            if args.logs:
+                print("-----------Nuovi hosts-----------")
+                print(new_hosts_dict)
+            save()
+            seconds=10
+            if(args.seconds!=None):
+                seconds=int(args.seconds)
+            time.sleep(seconds)
+    except KeyboardInterrupt:
+        if(len(known_hosts_dict)>=dim_db):
+            load()
         save()
-        seconds=10
-        if(args.seconds!=None):
-            seconds=int(args.seconds)
-        time.sleep(seconds)
