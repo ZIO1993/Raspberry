@@ -50,7 +50,7 @@ def check_who_is_home(mac_address_list):
         if x and not x in at_home:
             w=[x]
             at_home = at_home + w
-    at_home = at_home.sort()
+    at_home.sort()
     if len(at_home)==0:
         print("Sembra che a casa non ci sia nessun host conosciuto.")
     elif len(at_home)==1:
