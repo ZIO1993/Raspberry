@@ -54,6 +54,8 @@ def load():
             data = json.load(json_file)
             known_hosts_dict    = data["known_hosts_dict"]
             new_hosts_dict      = data["new_hosts_dict"]
+            print("-----------LOAD DATA-------------")
+            print(data)
     
 def save():
     data = {"known_hosts_dict": known_hosts_dict, "new_hosts_dict": new_hosts_dict}
