@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 import scapy.all as scapy
-import json, os
+import json, os, time
 import argparse
 import telegram_send
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--debug", "--logs", "--verbose",dest='logs', help="Run script with logs", action="store_true")
+parser.add_argument("--second", "--delay", dest='second', type=int, help="Time dalay to refresh")
 #parser.add_argument("--name", "--add", dest='name', help="name of new tracking to be added")
 #parser.add_argument("--delete", help="name of the search you want to delete")
 #parser.add_argument('--refresh', dest='refresh', action='store_true', help="refresh search results")
@@ -20,12 +21,6 @@ GATEWAY = "192.168.1.254/24"
 
 known_hosts_dict = {}
 new_hosts_dict = {}
-
-def print_result(results_list):
-    print("IP\t\t\tMAC Address")
-    print("------------------------------------------------")
-    for client in results_list:
-        print(client["ip"] + "\t\t" + client["mac"])
 
 # https://medium.com/@777rip777/simple-network-scanner-with-python-and-scapy-802645073190
 
@@ -89,13 +84,18 @@ def save():
         json.dump(data, outfile, indent=4)
 
 if __name__ == "__main__":
-    load()
-    scan_result = scan()
-    if args.logs:
-        print("-----------Scan result-----------")
-        print(scan_result)
-    check_who_is_home(scan_result)
-    if args.logs:
-        print("-----------Nuovi hosts-----------")
-        print(new_hosts_dict)
-    save()
+    while True:
+        load()
+        scan_result = scan()
+        if args.logs:
+            print("-----------Scan result-----------")
+            print(scan_result)
+        check_who_is_home(scan_result)
+        if args.logs:
+            print("-----------Nuovi hosts-----------")
+            print(new_hosts_dict)
+        save()
+        time=10
+        if(args.second):
+            time=args.second
+        time.sleep(time)
